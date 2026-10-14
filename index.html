@@ -3,330 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Library Simulation</title>
+    <title>Team TAPIA | Smart Library Project</title>
     <style>
         :root {
-            --bg-color: #f8fafc;
-            --panel-bg: rgba(255, 255, 255, 0.75);
-            --accent-glow: rgba(14, 165, 233, 0.15);
-            --accent-color: #0ea5e9;
-            --purple-glow: #6366f1;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: rgba(15, 23, 42, 0.08);
+            --bg-pure: #ffffff;
+            --bg-soft: #fcfcfc;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --accent-glow: rgba(0, 0, 0, 0.03);
+            --border: #eeeeee;
         }
 
-        /* Smooth page scroll & modern reset */
         * {
             box-sizing: border-box;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-pure);
             color: var(--text-main);
-            margin: 0;
-            padding: 0;
+            line-height: 1.6;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 50%);
         }
 
-        /* Advanced Background Interactive Network Canvas */
-        #particle-canvas {
+        /* Fluid Motion Background Elements */
+        .ambient-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(0,0,0,0.02) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
             pointer-events: none;
+            z-index: 1;
+            transition: transform 0.1s ease-out;
         }
+        #glow1 { top: -10%; left: -10%; }
+        #glow2 { bottom: -10%; right: -10%; }
 
-        /* Intros & Keyframe Entry Animations */
-        @keyframes subtleReveal {
-            from {
-                opacity: 0;
-                transform: translateY(40px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        @keyframes imageShimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-
-        header {
-            padding: 8rem 2rem 5rem;
-            text-align: center;
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
             position: relative;
-            animation: subtleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 2;
         }
 
-        header h1 {
-            font-size: 3.8rem;
-            margin: 0;
+        /* Hero Layout */
+        header {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        h1 {
+            font-size: 5rem;
             font-weight: 800;
-            letter-spacing: -1.5px;
-            background: linear-gradient(135deg, var(--text-main) 40%, var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            line-height: 1.1;
+            margin-bottom: 16px;
         }
 
         header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-top: 1.2rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 1150px;
-            margin: 0 auto;
-            padding: 0 1.5rem 6rem;
-        }
-
-        section {
-            margin-bottom: 7rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: subtleReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        /* Staggered layout delays */
-        section:nth-of-type(1) { animation-delay: 0.15s; }
-        section:nth-of-type(2) { animation-delay: 0.3s; }
-        section:nth-of-type(3) { animation-delay: 0.45s; }
-
-        h2 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            letter-spacing: -0.75px;
-            margin-bottom: 2.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        h2::after {
-            content: '';
-            height: 1px;
-            flex-grow: 1;
-            background: linear-gradient(to right, rgba(15, 23, 42, 0.1), transparent);
-        }
-
-        /* Modern Glassmorphic Objective Panel */
-        .goal-box {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 3rem;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            position: relative;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .goal-box {
-                grid-template-columns: 1.4fr 1fr;
-                align-items: center;
-            }
-        }
-
-        .goal-box p {
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin: 0;
-            color: #334155;
-        }
-
-        /* Image Display Mechanics */
-        .media-frame {
-            width: 100%;
-            height: 240px;
-            background: #f1f5f9;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.06);
-        }
-
-        .media-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .card:hover .media-frame img {
-            transform: scale(1.05);
-        }
-
-        /* Engine Feature Cards Grid */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 2.5rem;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .card:hover {
-            transform: translateY(-12px) scale(1.01);
-            border-color: var(--accent-color);
-            box-shadow: 0 30px 60px -15px rgba(14, 165, 233, 0.12);
-        }
-
-        .card h3 {
-            margin: 0;
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .card:hover h3 {
-            color: var(--accent-color);
-        }
-
-        .card p {
             color: var(--text-muted);
-            margin: 0;
-            font-size: 1.05rem;
-            line-height: 1.6;
+            max-width: 600px;
+            animation-delay: 0.2s;
         }
 
-        .card .card-image {
-            height: 180px;
+        /* Sections Grid */
+        section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
         }
 
-        /* Team Interactive Panels */
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .content-block {
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: -0.5px;
+            max-width: 900px;
+            margin-bottom: 30px;
+        }
+
+        /* Team Cards Configuration */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
         }
 
-        .team-member {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            padding: 3rem 1.5rem;
-            border-radius: 24px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.02);
+        @media (max-width: 768px) {
+            .team-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 3rem; }
         }
 
-        .team-member:hover {
+        .member-card {
+            background: var(--bg-soft);
+            border: 1px solid var(--border);
+            padding: 32px;
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .member-card:hover {
             transform: translateY(-8px);
-            border-color: var(--purple-glow);
-            box-shadow: 0 30px 60px -15px rgba(99, 102, 241, 0.12);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.03);
         }
 
-        .team-member .avatar {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.8rem;
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.04);
-        }
-
-        .team-member:hover .avatar {
-            border-color: var(--purple-glow);
-            box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
-            color: var(--purple-glow);
-            transform: scale(1.05) rotate(5deg);
-        }
-
-        .team-member h3 {
-            margin: 0;
+        .member-card h3 {
             font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
+            margin-bottom: 4px;
         }
 
-        .team-member p {
-            color: var(--purple-glow);
-            margin: 0.6rem 0 0;
+        .member-card .role {
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .member-card ul {
+            list-style: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .member-card li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 12px;
+        }
+        .member-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #ccc;
         }
 
         footer {
+            padding: 40px 0;
             text-align: center;
-            padding: 4rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            border-top: 1px solid var(--border-color);
-            font-size: 0.95rem;
-            background: rgba(248, 250, 252, 0.9);
+        }
+
+        @keyframes revealUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Animated Spatial Particles Layer -->
-    <canvas id="particle-canvas"></canvas>
-
-    <header>
-        <h1>Smart Library Project</h1>
-        <p>Advanced 3D Simulation Platform • Godot Engine</p>
-    </header>
+    <!-- Motion Background Layers -->
+    <div class="ambient-glow" id="glow1"></div>
+    <div class="ambient-glow" id="glow2"></div>
 
     <div class="container">
-        
-        <!-- Objective System Block -->
-        <section>
-            <h2>Our Mission</h2>
-            <div class="goal-box">
-                <div>
-                    <p>Our defining objective is to <strong>architect an elite, friction-free user experience</strong>. By deploying highly optimized 3D graphics inside our simulated environment, our team turns standard text catalogs into a living ecosystem. Users interact natively with spatial nodes, modern interfaces, and intelligent assets in real-time.</p>
+        <!-- Hero Section -->
+        <header>
+            <h1 class="reveal-text">TEAM TAPIA</h1>
+            <p class="reveal-text">Redefining static environments through sandbox logic, native automation scripts, and smart interfaces.</p>
+        </header>
+
+        <!-- Name Origin Section -->
+        <section id="origin">
+            <div class="section-title">Why Team TAPIA?</div>
+            <div class="content-block">
+                The name <strong>TAPIA</strong> perfectly balances physical action and cognitive systems. It directly bridges the physical <strong>"Tap"</strong> of user access control systems with native <strong>"AI"</strong> automation frameworks.
+            </div>
+        </section>
+
+        <!-- Our Goal Section -->
+        <section id="goal">
+            <div class="section-title">Our Goal</div>
+            <div class="content-block">
+                To build an immersive digital twin layout that shifts library resource discovery away from outdated directories and into an intuitive, functional ecosystem.
+            </div>
+        </section>
+
+        <!-- The Interactive AI Experience Section -->
+        <section id="ai-concept">
+            <div class="section-title">Interactive AI Experiences</div>
+            <div class="content-block">
+                By integrating AI, libraries evolve from quiet storage rooms into dynamic knowledge matrices. Predictive text parsing systems, contextual robot sorting loops, and live dialogue nodes allow patrons to interact with data fluidly.
+            </div>
+        </section>
+
+        <!-- Team Structure Section -->
+        <section id="team">
+            <div class="section-title">System Roles & Assignments</div>
+            <div class="team-grid">
+                <!-- Member 1 -->
+                <div class="member-card">
+                    <h3>Member 1</h3>
+                    <div class="role">Creative Architect</div>
+                    <ul>
+                        <li>Manages physical sandbox construction</li>
+                        <li>Configures structural zone layouts</li>
+                        <li>Wires automated lighting components</li>
+                    </ul>
                 </div>
-                <!-- Main Goal Image Frame -->
-                <div class="media-frame">
-                    <img src="https://unsplash.com" alt="Smart Library Architecture">
+                <!-- Member 2 -->
+                <div class="member-card">
+                    <h3>Member 2</h3>
+                    <div class="role">Automation Lead</div>
+                    <ul>
+                        <li>Engineers native Python loops</li>
+                        <li>Controls helper bot behaviors</li>
+                        <li>Optimizes routing sorting bins</li>
+                    </ul>
+                </div>
+                <!-- Member 3 -->
+                <div class="member-card">
+                    <h3>Member 3</h3>
+                    <div class="role">UX Interface Designer</div>
+                    <ul>
+                        <li>Builds interactive dialogue systems</li>
+                        <li>Links external project endpoints</li>
+                        <li>Programs shortcut command nodes</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <!-- Dynamic Quality Blocks -->
-        <section>
-            <h2>Engine Features</h2>
-            <div class="grid">
-                <div class="card">
+        <footer>
+            &copy; 2026 Team TAPIA. All Rights Reserved. Built for GitHub Pages.
+        </footer>
+    </div>
 
-    
+    <script>
+        // 1. Mouse Parallax Motion Effect
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            document.getElementById('glow1').style.transform = `translate(${x * 50}px, ${y * 50}px)`;
+            document.getElementById('glow2').style.transform = `translate(${x * -50}px, ${y * -50}px)`;
+        });
+
+        // 2. Smooth Reveal Scroll Animation Effect
+        const sections = document.querySelectorAll('section');
+        const observerOptions = { threshold: 0.15 };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
+
+       
