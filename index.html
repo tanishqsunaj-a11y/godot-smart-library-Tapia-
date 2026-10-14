@@ -6,20 +6,20 @@
     <title>Smart Library Simulation</title>
     <style>
         :root {
-            --bg-color: #030712;
-            --panel-bg: rgba(17, 24, 39, 0.7);
-            --accent-glow: rgba(56, 189, 248, 0.4);
-            --accent-color: #38bdf8;
-            --purple-glow: #818cf8;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --bg-color: #f8fafc;
+            --panel-bg: rgba(255, 255, 255, 0.75);
+            --accent-glow: rgba(14, 165, 233, 0.15);
+            --accent-color: #0ea5e9;
+            --purple-glow: #6366f1;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: rgba(15, 23, 42, 0.08);
         }
 
         /* Smooth page scroll & modern reset */
         * {
             box-sizing: border-box;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
@@ -30,11 +30,11 @@
             padding: 0;
             overflow-x: hidden;
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.06) 0%, transparent 40%);
+                radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 50%);
         }
 
-        /* Advanced Background Interactive Canvas */
+        /* Advanced Background Interactive Network Canvas */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -46,140 +46,166 @@
         }
 
         /* Intros & Keyframe Entry Animations */
-        @keyframes fadeInUp {
+        @keyframes subtleReveal {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px) scale(0.98);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { text-shadow: 0 0 15px rgba(56,189,248,0.3); }
-            50% { text-shadow: 0 0 30px rgba(56,189,248,0.6); }
+        @keyframes imageShimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         header {
-            padding: 7rem 2rem 5rem;
+            padding: 8rem 2rem 5rem;
             text-align: center;
             position: relative;
-            animation: fadeInUp 1s ease-out;
+            animation: subtleReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         header h1 {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             margin: 0;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--accent-color));
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, var(--text-main) 40%, var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: pulseGlow 4s infinite ease-in-out;
         }
 
         header p {
             color: var(--text-muted);
-            font-size: 1.2rem;
-            margin-top: 1rem;
-            letter-spacing: 1px;
+            font-size: 1.1rem;
+            margin-top: 1.2rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 0 auto;
             padding: 0 1.5rem 6rem;
         }
 
         section {
-            margin-bottom: 6rem;
+            margin-bottom: 7rem;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s forwards;
+            transform: translateY(30px);
+            animation: subtleReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* Staggered row deployment delays via standard loading states */
-        section:nth-of-type(1) { animation-delay: 0.2s; }
-        section:nth-of-type(2) { animation-delay: 0.4s; }
-        section:nth-of-type(3) { animation-delay: 0.6s; }
+        /* Staggered layout delays */
+        section:nth-of-type(1) { animation-delay: 0.15s; }
+        section:nth-of-type(2) { animation-delay: 0.3s; }
+        section:nth-of-type(3) { animation-delay: 0.45s; }
 
         h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.75px;
+            margin-bottom: 2.5rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
         }
 
         h2::after {
             content: '';
             height: 1px;
             flex-grow: 1;
-            background: linear-gradient(to right, var(--accent-color), transparent);
-            opacity: 0.3;
+            background: linear-gradient(to right, rgba(15, 23, 42, 0.1), transparent);
         }
 
-        /* Glassmorphism Goal Terminal Box */
+        /* Modern Glassmorphic Objective Panel */
         .goal-box {
             background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 2.5rem;
-            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
             position: relative;
-            overflow: hidden;
-        }
-
-        .goal-box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--accent-color), var(--purple-glow));
-        }
-
-        .goal-box p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin: 0;
-            color: #e2e8f0;
-        }
-
-        /* Responsive Motion Grids */
-        .grid {
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.03);
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
 
-        /* Interactive Quality Cards with Border Tracing Effects */
-        .card {
-            background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 2.5rem;
+        @media (min-width: 768px) {
+            .goal-box {
+                grid-template-columns: 1.4fr 1fr;
+                align-items: center;
+            }
+        }
+
+        .goal-box p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin: 0;
+            color: #334155;
+        }
+
+        /* Image Display Mechanics */
+        .media-frame {
+            width: 100%;
+            height: 240px;
+            background: #f1f5f9;
             border-radius: 16px;
             border: 1px solid var(--border-color);
-            cursor: pointer;
+            overflow: hidden;
             position: relative;
+            box-shadow: 0 20px 40px -15px rgba(0,0,0,0.06);
+        }
+
+        .media-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .media-frame img {
+            transform: scale(1.05);
+        }
+
+        /* Engine Feature Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-12px) scale(1.01);
             border-color: var(--accent-color);
-            box-shadow: 0 15px 30px rgba(56, 189, 248, 0.1);
+            box-shadow: 0 30px 60px -15px rgba(14, 165, 233, 0.12);
         }
 
         .card h3 {
-            margin: 0 0 1rem 0;
-            font-size: 1.4rem;
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--text-main);
         }
 
@@ -190,88 +216,90 @@
         .card p {
             color: var(--text-muted);
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.05rem;
             line-height: 1.6;
         }
 
-        /* Dynamic Neon Team Layout */
+        .card .card-image {
+            height: 180px;
+        }
+
+        /* Team Interactive Panels */
         .team-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2.5rem;
         }
 
         .team-member {
             background: var(--panel-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 2.5rem 1.5rem;
-            border-radius: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 3rem 1.5rem;
+            border-radius: 24px;
             text-align: center;
             border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 20px -5px rgba(0,0,0,0.02);
         }
 
         .team-member:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             border-color: var(--purple-glow);
-            box-shadow: 0 20px 40px rgba(129, 140, 248, 0.15);
+            box-shadow: 0 30px 60px -15px rgba(99, 102, 241, 0.12);
         }
 
-        /* Glowing Avatar Orbs */
         .team-member .avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 2px solid var(--border-color);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 1px solid var(--border-color);
             color: var(--text-main);
             border-radius: 50%;
             margin: 0 auto 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.6rem;
-            position: relative;
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.05);
+            font-weight: 800;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.04);
         }
 
         .team-member:hover .avatar {
             border-color: var(--purple-glow);
-            box-shadow: 0 0 20px rgba(129, 140, 248, 0.4);
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
             color: var(--purple-glow);
+            transform: scale(1.05) rotate(5deg);
         }
 
         .team-member h3 {
             margin: 0;
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 700;
             color: var(--text-main);
         }
 
         .team-member p {
-            color: var(--accent-color);
-            margin: 0.5rem 0 0;
+            color: var(--purple-glow);
+            margin: 0.6rem 0 0;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-weight: 700;
         }
 
         footer {
             text-align: center;
-            padding: 3rem;
+            padding: 4rem;
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
-            background: rgba(3, 7, 18, 0.8);
+            font-size: 0.95rem;
+            background: rgba(248, 250, 252, 0.9);
         }
     </style>
 </head>
 <body>
 
-    <!-- Animated Data Particles Layer -->
+    <!-- Animated Spatial Particles Layer -->
     <canvas id="particle-canvas"></canvas>
 
     <header>
@@ -285,7 +313,13 @@
         <section>
             <h2>Our Mission</h2>
             <div class="goal-box">
-                <p>Our defining objective is to <strong>architect an elite, friction-free user experience</strong>. By deploying highly optimized 3D graphics inside our simulated environment, our team turns standard text catalogs into a living ecosystem. Users interact natively with spatial nodes, modern interfaces, and intelligent assets in real-time.</p>
+                <div>
+                    <p>Our defining objective is to <strong>architect an elite, friction-free user experience</strong>. By deploying highly optimized 3D graphics inside our simulated environment, our team turns standard text catalogs into a living ecosystem. Users interact natively with spatial nodes, modern interfaces, and intelligent assets in real-time.</p>
+                </div>
+                <!-- Main Goal Image Frame -->
+                <div class="media-frame">
+                    <img src="https://unsplash.com" alt="Smart Library Architecture">
+                </div>
             </div>
         </section>
 
@@ -294,28 +328,5 @@
             <h2>Engine Features</h2>
             <div class="grid">
                 <div class="card">
-                    <h3>High-Tier Architecture</h3>
-                    <p>Designed with clean, fluid geometry utilizing spatial separation layouts instead of static rigid geometry grids.</p>
-                </div>
-                <div class="card">
-                    <h3>Interactive Nodes</h3>
-                    <p>Features proximity-triggered runtime panels that dynamically map system analytics seamlessly onto screen overlays.</p>
-                </div>
-                <div class="card">
-                    <h3>Atmospheric Fidelity</h3>
-                    <p>Implements advanced real-time ray-traced shadows and soft ambient global illumination maps directly in-engine.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Advanced Team Roster Blocks -->
-        <section>
-            <h2>Project Operators</h2>
-            <div class="team-grid">
-                <div class="team-member">
-                    <div class="avatar">A</div>
-                    <h3>Ada</h3>
-                    <p>Team Manager</p>
-                </div>
 
     
